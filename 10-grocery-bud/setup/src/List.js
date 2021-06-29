@@ -1,38 +1,25 @@
 import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
-const List = () => {
-  const [name, setName] = useState("");
-  const [list, setList] = useState([]);
-  const [isEditing, setIsEditing] = useState(false);
-  const [editID, setEditID] = useState(null);
-  const [alert, setAlert] = useState({ show: false, msg: "", type: "" });
-  const handle = (e) => {
-    e.preventDefault();
-  };
-
+const List = ({ items, removeItem, editItem }) => {
   return (
-    <section className="section-center">
-      <form onSubmit={handleSubmit} className="grocery-form">
-        {alert.show && <Alert />}
-        <h3>grocery bud</h3>
-        <div className="form-control">
-          <input
-            type="text"
-            className="grocery"
-            placeholder="e.g. eggs"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <button type="submit" className="submit-btn">
-            {isEditing ? "edit" : "submit"}
-          </button>
-        </div>
-        <div className="grocery-container">
-          <List />
-          <button className="clear-btn">clear items</button>
-        </div>
-      </form>
-    </section>
+    <div className="grocery-list">
+      {items.map((item) => {
+        const { id, title } = item;
+        return (
+          <article key={id} className="grocery-item">
+            <p className="title">{title}</p>
+            <div className="btn-container">
+              <button className="edit-btn" onClick={() => editItem(id)}>
+                <FaEdit />
+              </button>
+              <button className="delete-btn" onClick={() => removeItem(id)}>
+                <FaTrash />
+              </button>
+            </div>
+          </article>
+        );
+      })}
+    </div>
   );
 };
 
